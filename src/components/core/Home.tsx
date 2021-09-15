@@ -1,14 +1,11 @@
 import React from 'react'
 import Layout from './Layout'
-import {useSelector} from 'react-redux'
-
 
 const Home = () => {
-    const state = useSelector(state => state)
+    
     return (
-        <Layout>
+        <Layout title='首页' subTitle='买买买！！'>
             home
-            {JSON.stringify(state)}
         </Layout>
     )
 }

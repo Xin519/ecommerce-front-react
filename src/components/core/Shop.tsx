@@ -3,7 +3,7 @@ import Layout from './Layout'
 
 const Shop = () => {
     return (
-        <Layout>
+        <Layout title='商城' subTitle='买买买！！'>
            Shop 
         </Layout>
     )
