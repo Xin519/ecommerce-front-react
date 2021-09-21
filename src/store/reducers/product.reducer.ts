@@ -1,4 +1,4 @@
-import { GET_PRODUCT, GET_PRODUCT_SUCCESS, ProductUnionType, SEARCH_PRODUCT_SUCCESS } from "../actions/product.actions";
+import { FILTER_PRODUCT, FILTER_PRODUCT_SUCCESS, GET_PRODUCT, GET_PRODUCT_SUCCESS, ProductUnionType, SEARCH_PRODUCT_SUCCESS } from "../actions/product.actions";
 import { Product } from "../models/Product";
 
 export interface ProductState {
@@ -6,13 +6,21 @@ export interface ProductState {
         loaded: boolean
         success: boolean
         products: Product[]
-      }
-      sold: {
+    }
+    sold: {
         loaded: boolean
         success: boolean
         products: Product[]
-      },
-      search: Product[]
+    },
+    search: Product[],
+    filter: {
+        loaded: boolean
+        success: boolean
+        result: {
+            size: number
+            data: Product[]
+        }
+    }
 }
 
 const initialState: ProductState = {
@@ -20,16 +28,25 @@ const initialState: ProductState = {
         loaded: false,
         success: false,
         products: []
-      },
-      sold: {
+    },
+    sold: {
         loaded: false,
         success: false,
         products: []
-      },
-      search: []
+    },
+    search: [],
+    filter: {
+        loaded: false,
+        success: false,
+        result: {
+            size: 0,
+            data: []
+        }
+    }
+
 }
 
-export default function productReducer (state = initialState, action: ProductUnionType) {
+export default function productReducer(state = initialState, action: ProductUnionType) {
     switch (action.type) {
         case GET_PRODUCT:
             return {
@@ -40,8 +57,8 @@ export default function productReducer (state = initialState, action: ProductUni
                     success: false
                 }
             }
-        
-        case GET_PRODUCT_SUCCESS: 
+
+        case GET_PRODUCT_SUCCESS:
             return {
                 ...state,
                 [action.sortBy]: {
@@ -49,14 +66,37 @@ export default function productReducer (state = initialState, action: ProductUni
                     success: true,
                     products: action.payload
                 }
-            } 
-        
+            }
+
         case SEARCH_PRODUCT_SUCCESS:
             return {
                 ...state,
                 search: action.products
-            }    
-            
+            }
+
+        case FILTER_PRODUCT:
+            return {
+                ...state,
+                loaded: false,
+                success: false,
+                result: {
+                    size: 0,
+                    data: []
+                }
+            }
+
+        case FILTER_PRODUCT_SUCCESS:
+            let data = action.skip === 0 ? action.payload.data : [...state.filter.result.data, ...action.payload.data]
+            return {
+                ...state,
+                loaded: true,
+                success: true,
+                result: {
+                    size: action.payload.size,
+                    data
+                }
+            }
+
         default:
             return state
     }
