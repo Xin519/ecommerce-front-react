@@ -1,7 +1,7 @@
 import { put, takeEvery } from "@redux-saga/core/effects";
 import axios from "axios";
 import { API } from "../../config";
-import { FilterProductAction, filterProductSuccess, FILTER_PRODUCT, GetProductAction, getProductSuccess, GET_PRODUCT, SearchProductAction, searchProductSuccess, SEARCH_PRODUCT } from "../actions/product.actions";
+import { FilterProductAction, filterProductSuccess, FILTER_PRODUCT, GetProductAction, GetProductByIdAction, getProductByIdSuccess, getProductSuccess, GET_PRODUCT, GET_PRODUCT_BY_ID, SearchProductAction, searchProductSuccess, SEARCH_PRODUCT } from "../actions/product.actions";
 import { Product } from "../models/Product";
 
 function* handGetprogect ({ sortBy, order, limit }: GetProductAction): any {
@@ -24,10 +24,16 @@ function* handleFilterProduct (action: FilterProductAction): any {
     yield put(filterProductSuccess(response.data, action.payload.skip))
 }
 
+function* handleGetProductById ({ payload }: GetProductByIdAction): any {
+    let response = yield axios.get(`${API}/product/${payload.productId}`)
+    yield put(getProductByIdSuccess(response.data))
+}
+
 export default function* productSage () {
     yield takeEvery(GET_PRODUCT, handGetprogect)
     yield takeEvery(SEARCH_PRODUCT, handSearchProduct)
     yield takeEvery(FILTER_PRODUCT, handleFilterProduct)
+    yield takeEvery(GET_PRODUCT_BY_ID, handleGetProductById)
 }
 
 

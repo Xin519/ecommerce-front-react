@@ -10,6 +10,8 @@ import PrivateRoute from './components/admin/PrivateRoute'
 import AdminRoute from './components/admin/AdminRoute'
 import AddCategory from './components/admin/AddCategory'
 import AddProduct from './components/admin/AddProduct'
+import Product from './components/core/Product'
+import cart from './components/core/cart'
 
 const Routes = () => {
     return (
@@ -23,6 +25,8 @@ const Routes = () => {
                 <AdminRoute path="/admin/dashboard" component={AdminDashboard} />
                 <AdminRoute path="/create/category" component={AddCategory} />
                 <AdminRoute path="/create/product" component={AddProduct} />
+                <Route path='/Product/:ProductId' component={Product} />
+                <Route path='/Cart' component={cart} />
             </Switch>
         </HashRouter>
     )
