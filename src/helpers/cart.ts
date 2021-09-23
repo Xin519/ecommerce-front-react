@@ -7,8 +7,8 @@ export interface CartItem extends Product {
 
 export const addItem = (item: Product, next: () => void) => {
     let cart: CartItem[] = []
-    if(typeof window !== 'undefined') {
-        if(localStorage.getItem('cart')){
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
             cart = JSON.parse(localStorage.getItem('cart')!)
         }
         cart.push({
@@ -25,10 +25,54 @@ export const addItem = (item: Product, next: () => void) => {
 
 // 获取
 export const getCart = () => {
-    if(typeof window !== 'undefined') {
-        if(localStorage.getItem('cart')){
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
             return JSON.parse(localStorage.getItem('cart')!) as CartItem[]
         }
-    } 
-    return []   
+    }
+    return []
+}
+
+// 修改商品数量
+export const updateItem = (productId: string, count: number) => {
+    let cart: CartItem[] = []
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
+            cart = JSON.parse(localStorage.getItem('cart')!)
+        }
+        cart.forEach((item, index) => {
+            if (item._id === productId) {
+                cart[index].count = count
+            }
+        })
+        localStorage.setItem('cart', JSON.stringify(cart))
+    }
+    return cart
+}
+
+// 删除
+export const deleteItem = (productId: string,) => {
+    let cart: CartItem[] = []
+    if (typeof window !== 'undefined') {
+        if (localStorage.getItem('cart')) {
+            cart = JSON.parse(localStorage.getItem('cart')!)
+        }
+        cart.forEach((item, index) => {
+            if (item._id === productId) {
+                cart.splice(index, 1)
+            }
+        })
+        localStorage.setItem('cart', JSON.stringify(cart))
+    }
+    return cart
+}
+
+// 获取数量
+export const itemCount = () => {
+    if (typeof window !== 'undefined') { 
+        if (localStorage.getItem('cart')) {
+            return JSON.parse(localStorage.getItem('cart')!).length
+        }
+    }
+    return 0
 }

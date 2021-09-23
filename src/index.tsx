@@ -6,11 +6,14 @@ import store from './store';
 import { ConnectedRouter } from 'connected-react-router';
 import { history } from './store'
 import './style.css'
+import AnotherStore from './anotherStore';
 
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <Routes />
+      <AnotherStore>
+        <Routes />
+      </AnotherStore>
     </ConnectedRouter>
   </Provider>,
   document.getElementById('root')

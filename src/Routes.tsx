@@ -12,6 +12,8 @@ import AddCategory from './components/admin/AddCategory'
 import AddProduct from './components/admin/AddProduct'
 import Product from './components/core/Product'
 import cart from './components/core/cart'
+import Success from './components/core/Success'
+import Orders from './components/admin/Orders'
 
 const Routes = () => {
     return (
@@ -25,8 +27,10 @@ const Routes = () => {
                 <AdminRoute path="/admin/dashboard" component={AdminDashboard} />
                 <AdminRoute path="/create/category" component={AddCategory} />
                 <AdminRoute path="/create/product" component={AddProduct} />
+                <AdminRoute path="/admin/Orders" component={Orders} />
                 <Route path='/Product/:ProductId' component={Product} />
                 <Route path='/Cart' component={cart} />
+                <Route path='/paysuccess' component={Success} />
             </Switch>
         </HashRouter>
     )

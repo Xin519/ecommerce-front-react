@@ -1,13 +1,21 @@
 import { Button, Input, Image } from 'antd'
-import React, { FC } from 'react'
+import React, { ChangeEvent, FC, useState } from 'react'
 import { API } from '../../config'
-import { CartItem } from '../../helpers/cart'
+import { CartItem, deleteItem, updateItem } from '../../helpers/cart'
 
 interface Props {
-    product: CartItem
+    product: CartItem,
+    setCart: (arg: CartItem[]) => void
 }
 
-const CartItemFc: FC<Props> = ({ product }) => {
+const CartItemFc: FC<Props> = ({ product, setCart }) => {
+    const [count, setCount] = useState<number>(product.count);
+
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        let count = parseInt(event.target.value)
+        setCart(updateItem(product._id, count))
+        setCount(count)
+    }
     return (
         <div>
             <tr className="ant-table-row">
@@ -18,11 +26,11 @@ const CartItemFc: FC<Props> = ({ product }) => {
                 <td className="ant-table-cell">{product.price}</td>
                 <td className="ant-table-cell">{product.category.name}</td>
                 <td className="ant-table-cell">
-                    {/* <Input type="number" value={count} onChange={handleChange} /> */}
+                    <Input type="number" value={count} onChange={handleChange} />
                 </td>
                 <td className="ant-table-cell">
                     <Button
-                        //   onClick={() => setCart(deleteItem(product._id))}
+                        onClick={() => setCart(deleteItem(product._id))}
                         danger
                         type="primary"
                     >
